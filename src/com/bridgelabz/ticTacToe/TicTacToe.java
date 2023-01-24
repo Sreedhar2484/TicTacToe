@@ -6,6 +6,7 @@ public class TicTacToe {
     
     private static char[] board = new char[10];
     static char player, computer;
+     private static int  playLocation;
     static Scanner scanner = new Scanner(System.in);
 
     static void selectIndex() {
@@ -39,7 +40,7 @@ public class TicTacToe {
     
     public static void userMove() {
         System.out.println("Enter index from 1-9 to make the Move");
-        int playLocation = scanner.nextInt();
+        playLocation = scanner.nextInt();
         if (playLocation < 10 && playLocation > 0) {
             board[playLocation] = player;
             showBoard();
@@ -47,11 +48,19 @@ public class TicTacToe {
             System.out.println("Invalid Choice");
         }
     }
+
+    public static boolean isEmpty(){
+        if(board[playLocation] == ' '){
+            return true;
+        } else 
+             return false;
+    }
     public static void main(String[] args){
         System.out.println("Welcome To Tic Tac Toe Game");
         selectIndex();
         check();
         showBoard();
         userMove();
+        isEmpty();
     }
 }
