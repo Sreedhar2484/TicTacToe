@@ -1,5 +1,6 @@
 package com.bridgelabz.ticTacToe;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -55,8 +56,25 @@ public class TicTacToe {
         } else 
              return false;
     }
+    
+    /*
+     * Tossing the coin to checking who won the first
+     */
+    public static void checkToss() {
+        Random random = new Random();
+        int tossResult = random.nextInt(2) + 1;
+        System.out.println("\nChoose 1 for Heads or 2 for Tails");
+        int selectCoin = scanner.nextInt();
+
+        if (selectCoin == tossResult) {
+            System.out.println("\nPlayer Won The Toss! Player Starts");
+        } else {
+            System.out.println("\nComputer Won The Toss! Computer Starts");
+        }
+    }
     public static void main(String[] args){
         System.out.println("Welcome To Tic Tac Toe Game");
+        checkToss();
         selectIndex();
         check();
         showBoard();
