@@ -9,6 +9,7 @@ public class TicTacToe {
     char computerLetter = '\0';
     String winner = null;
     int turn = 0;
+    int firstPlayer = 0;
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -308,5 +309,47 @@ public class TicTacToe {
             gameBoard[2] = computerLetter;
         else if (gameBoard[3] == playerLetter && gameBoard[9] == playerLetter && gameBoard[6] == ' ')
             gameBoard[6] = computerLetter;
+    }
+
+    void playersTurn() {
+        playerPlays();
+        showBoard();
+        checkWinOrTie();
+    }
+
+    void computersTurn() {
+        computerPlays();
+        showBoard();
+        checkWinOrTie();
+    }
+
+    void startGame() {
+        firstPlayer = toss();
+        initialiseGame();
+        choosePlayerLetter();
+        if (firstPlayer == 1)
+            System.out.println("\nPlayer won the toss.\nPlayer plays first.");
+        else
+            System.out.println("\nComputer won the toss.\nComputer plays first.");
+        showBoard();
+    }
+
+    void continueTillGameOver() {
+        while (winner == null) {
+            if (firstPlayer == 1) {
+                playersTurn();
+                if (winner != null)
+                    break;
+                else
+                    computersTurn();
+            } else {
+                computersTurn();
+                if (winner != null)
+                    break;
+                else
+                    playersTurn();
+            }
+            turn++;
+        }
     }
 }
