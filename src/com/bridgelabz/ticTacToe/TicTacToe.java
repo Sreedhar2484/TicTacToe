@@ -1,173 +1,221 @@
+
 package com.bridgelabz.ticTacToe;
 
 import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
-    private static final Scanner scanner = new Scanner(System.in);
-    private char board[] = new char[10];
-    private char usersymbol, computersymbol;
-    private int player = 0;
 
-    TicTacToe() {
-        createBoard();
-        tossForFirstPlay();
-        takeUserInput();
-    }
+    char gameBoard[] = null;
+    char playerLetter = '\0';
+    char computerLetter = '\0';
+    String winner = null;
+    int turn = 0;
+    static Scanner sc = new Scanner(System.in);
 
-    /**
-     * created a method named createboard. it will iterate this for loop from 1 to
-     * 10. Board valus assigned empty space.
-     */
-    private void createBoard() {
-        for (int count = 1; count < 10; count++) {
-            board[count] = ' ';
-        }
-    }
-
-    /**
-     * It'll take user input 'x' and '0'. Compare those to assign the values whether
-     * it's computersymbol or usersymbol.
-     */
-    private void takeUserInput() {
-        System.out.println("Your turn:(Choose x or o) ");
-        String symbol = scanner.next();
-        if (symbol.equals("x")) {
-            usersymbol = 'x';
-            computersymbol = 'o';
-        } else if (symbol.equals("o")) {
-            usersymbol = 'o';
-            computersymbol = 'x';
-        } else {
-            System.out.println("invalid option");
-        }
-    }
-
-    /**
-     * this showBoard method is showing the empty board of 3*3 matrices. inside this
-     * board it'll take the board values assigned empty space.
-     */
-
-    private void showBoard() {
-        String horizontalPart = "+---+---+---+";
-        for (int row = 0; row < 3; row++) {
-            System.out.println(horizontalPart);
-            for (int coloumn = 1; coloumn < 4; coloumn++) {
-                System.out.print("| " + board[row * 3 + coloumn] + " ");
-            }
-            System.out.print("|\n");
-        }
-        System.out.print(horizontalPart);
-        System.out.print("\n");
-    }
-
-    /**
-     * this makeMove method will take user input from 1 to 9 place your move on the
-     * given input. if player==0 then it'll assign the value as given by computer.
-     */
-    public boolean makeMove(int index, int player) {
-        if (board[index] == ' ') {
-            if (player == 0) {
-                System.out.println("Computer played: ");
-                board[index] = computersymbol;
-            } else {
-                System.out.println("Player played: ");
-                board[index] = usersymbol;
-            }
-            showBoard();
-            checkWin();
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * this tossForFirstPlay method will get the input from user and check whether
-     * it's a head or tail by using random function
-     */
-    public void tossForFirstPlay() {
-        int player;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Toss (H or T):");
-        String toss = scanner.next();
-        int i = (int) Math.round(Math.random()) % 2;
-        if ((i == 1 && toss.equals("H")) || (i == 0 && toss.equals("T"))) {
-            System.out.println("Congratulations! You've won the Toss.");
-            player = 1;
-        } else {
-            System.out.println("You've lost Toss. Computer plays first.");
-            player = 0;
-        }
-    }
-
-    public void playGame() {
-        int i;
-        for (i = 0; i < 9; i++) {
-            if (player == 0) {
-                computerPlay();
-                player = 1;
-            } else {
-                System.out.println("Select Position (1-9): ");
-                while (makeMove(scanner.nextInt(), player)) {
-                    System.out.println("Try different place.");
-                }
-                player = 0;
-            }
-        }
-        if (i == 9) {
-            System.out.println("Game Draw!");
-            System.exit(0);
-        }
-    }
-
-    /**
-     * this checkWin method will check all the possible winning chances...
-     */
-    public void checkWin() {
-        if ((board[1] == usersymbol && board[2] == usersymbol && board[3] == usersymbol)
-                || (board[4] == usersymbol && board[5] == usersymbol && board[6] == usersymbol)
-                || (board[7] == usersymbol && board[8] == usersymbol && board[9] == usersymbol)
-                || (board[1] == usersymbol && board[4] == usersymbol && board[7] == usersymbol)
-                || (board[2] == usersymbol && board[5] == usersymbol && board[8] == usersymbol)
-                || (board[3] == usersymbol && board[6] == usersymbol && board[9] == usersymbol)
-                || (board[1] == usersymbol && board[5] == usersymbol && board[9] == usersymbol)
-                || (board[3] == usersymbol && board[5] == usersymbol && board[7] == usersymbol)) {
-            System.out.println("Player Wins!");
-            System.exit(0);
-        }
-
-        if ((board[1] == computersymbol && board[2] == computersymbol && board[3] == computersymbol)
-                || (board[4] == computersymbol && board[5] == computersymbol && board[6] == computersymbol)
-                || (board[7] == computersymbol && board[8] == computersymbol && board[9] == computersymbol)
-                || (board[1] == computersymbol && board[4] == computersymbol && board[7] == computersymbol)
-                || (board[2] == computersymbol && board[5] == computersymbol && board[8] == computersymbol)
-                || (board[3] == computersymbol && board[6] == computersymbol && board[9] == computersymbol)
-                || (board[1] == computersymbol && board[5] == computersymbol && board[9] == computersymbol)
-                || (board[3] == computersymbol && board[5] == computersymbol && board[7] == computersymbol)) {
-            System.out.println("Player Lost!");
-            System.exit(0);
-        }
-
-    }
-
-    private void computerPlay() {
-        // TODO: Implementation computer playing logic
-        while (makeMove((int) (Math.random() * 8) + 1, 0)) {
-            System.out.println("");
-        }
-    }
-
-    /**
-     * Here i have created a main method to execute the program. an object got
-     * created named tictactoe.which called the following methods.
-     * 
-     * @param args
-     */
     public static void main(String[] args) {
-        TicTacToe tictactoe = new TicTacToe(); // created object for class TicTacToeGame
-        tictactoe.showBoard();
-        tictactoe.playGame();
-
+        System.out.println("Welcome to the Tic Tac Toe Game Program in Java!");
+        TicTacToe gameObj = new TicTacToe();
+        gameObj.initialiseGame();
+        if (gameObj.toss() == 1)
+            System.out.println("\nPlayer won the toss.\nPlayer plays first.");
+        else
+            System.out.println("\nComputer won the toss.\nComputer plays first.");
+        gameObj.choosePlayerLetter();
+        gameObj.showBoard();
+        gameObj.playerPlays();
+        gameObj.showBoard();
+        gameObj.checkWinOrTie();
+        gameObj.computerPlays();
     }
+
+    void initialiseGame() {
+        gameBoard = new char[10];
+        for (int index = 0; index < 10; index++)
+            gameBoard[index] = ' ';
+    }
+
+    void choosePlayerLetter() {
+        System.out.println("\nPlayer please choose your play Letter.");
+        System.out.println("Enter 'X' to play 'X' on your turn.");
+        System.out.println("Or Enter 'O' to play 'O' on your turn.");
+        char playerInput = sc.next().charAt(0);
+        sc.close();
+        if (playerInput == 'X' || playerInput == 'x') {
+            playerLetter = 'X';
+            computerLetter = 'O';
+        } else if (playerInput == 'O' || playerInput == 'o') {
+            playerLetter = 'O';
+            computerLetter = 'o';
+        } else
+            System.out.println("\nInvalid Input.\nPlease try again!");
+    }
+
+    void showBoard() {
+        System.out.println("\nCurrent Board : ");
+        System.out.println("-------------");
+        System.out.println("| " + gameBoard[1] + " | " + gameBoard[2] + " | " + gameBoard[3] + " |");
+        System.out.println("-------------");
+        System.out.println("| " + gameBoard[4] + " | " + gameBoard[5] + " | " + gameBoard[6] + " |");
+        System.out.println("-------------");
+        System.out.println("| " + gameBoard[7] + " | " + gameBoard[8] + " | " + gameBoard[9] + " |");
+        System.out.println("-------------");
+    }
+
+    void playerPlays() {
+        System.out.print("\nEnter an empty cell number [1-9] where do want make your move : ");
+        byte playerCell = sc.nextByte();
+        if (playerCell > 9 || playerCell < 1) {
+            System.out.println("\nInvalid selection.\nPlease try again!");
+            playerPlays();
+        } else if (gameBoard[playerCell] != ' ') {
+            System.out.println("\nThe cell you selected is not empty.\nPlease try again!");
+            playerPlays();
+        } else
+            gameBoard[playerCell] = playerLetter;
+    }
+
+    int toss() {
+        return (Math.random() > 0.5 ? 1 : 0);
+    }
+
+    void checkWinOrTie() {
+        char winLetter = ' ';
+        byte cellsStillEmpty = 0;
+        winner = null;
+
+        for (int pattern = 1; pattern < 9; pattern++) {
+            switch (pattern) {
+                case 1:
+                    if (gameBoard[1] == gameBoard[2] && gameBoard[1] == gameBoard[3])
+                        winLetter = gameBoard[1];
+                    break;
+                case 2:
+                    if (gameBoard[4] == gameBoard[5] && gameBoard[4] == gameBoard[6])
+                        winLetter = gameBoard[4];
+                    break;
+                case 3:
+                    if (gameBoard[7] == gameBoard[8] && gameBoard[7] == gameBoard[9])
+                        winLetter = gameBoard[7];
+                    break;
+                case 4:
+                    if (gameBoard[1] == gameBoard[4] && gameBoard[1] == gameBoard[7])
+                        winLetter = gameBoard[1];
+                    break;
+                case 5:
+                    if (gameBoard[2] == gameBoard[5] && gameBoard[2] == gameBoard[8])
+                        winLetter = gameBoard[2];
+                    break;
+                case 6:
+                    if (gameBoard[3] == gameBoard[6] && gameBoard[3] == gameBoard[9])
+                        winLetter = gameBoard[3];
+                    break;
+                case 7:
+                    if (gameBoard[1] == gameBoard[5] && gameBoard[1] == gameBoard[9])
+                        winLetter = gameBoard[1];
+                    break;
+                case 8:
+                    if (gameBoard[3] == gameBoard[5] && gameBoard[3] == gameBoard[7])
+                        winLetter = gameBoard[3];
+                    break;
+            }
+        }
+        winner = "me";
+        if (winLetter == playerLetter)
+            winner = "PLAYER";
+        else if (winLetter == computerLetter)
+            winner = "COMPUTER";
+        else {
+            for (int counter = 1; counter <= 9; counter++) {
+                if (gameBoard[counter] == ' ')
+                    cellsStillEmpty++;
+            }
+            if (cellsStillEmpty == 0)
+                winner = "TIE";
+        }
+        if (winner != null)
+            displayResults();
+    }
+
+    void displayResults() {
+        if (winner == "TIE")
+            System.out.println("\n\nIt's a TIE!\nPlease try again.");
+        else
+            System.out.println("\n\n" + winner + " wins!");
+    }
+
+    void computerPlays() {
+        if (turn <= 2)
+            generateRandomMove();
+        else
+            generateSpecificMove();
+        turn++;
+    }
+
+    void generateRandomMove() {
+        int position = (int) (Math.random() * 9) + 1;
+        if (gameBoard[position] == ' ')
+            gameBoard[position] = computerLetter;
+        else
+            generateRandomMove();
+    }
+
+    void generateSpecificMove() {
+        if (gameBoard[1] == computerLetter && gameBoard[2] == computerLetter)
+            gameBoard[3] = computerLetter;
+        else if (gameBoard[2] == computerLetter && gameBoard[3] == computerLetter)
+            gameBoard[1] = computerLetter;
+        else if (gameBoard[1] == computerLetter && gameBoard[3] == computerLetter)
+            gameBoard[2] = computerLetter;
+
+        else if (gameBoard[4] == computerLetter && gameBoard[5] == computerLetter)
+            gameBoard[6] = computerLetter;
+        else if (gameBoard[5] == computerLetter && gameBoard[6] == computerLetter)
+            gameBoard[4] = computerLetter;
+        else if (gameBoard[4] == computerLetter && gameBoard[6] == computerLetter)
+            gameBoard[5] = computerLetter;
+
+        else if (gameBoard[7] == computerLetter && gameBoard[8] == computerLetter)
+            gameBoard[9] = computerLetter;
+        else if (gameBoard[8] == computerLetter && gameBoard[9] == computerLetter)
+            gameBoard[7] = computerLetter;
+        else if (gameBoard[7] == computerLetter && gameBoard[9] == computerLetter)
+            gameBoard[8] = computerLetter;
+
+        else if (gameBoard[1] == computerLetter && gameBoard[4] == computerLetter)
+            gameBoard[7] = computerLetter;
+        else if (gameBoard[4] == computerLetter && gameBoard[7] == computerLetter)
+            gameBoard[1] = computerLetter;
+        else if (gameBoard[1] == computerLetter && gameBoard[7] == computerLetter)
+            gameBoard[4] = computerLetter;
+
+        else if (gameBoard[2] == computerLetter && gameBoard[5] == computerLetter)
+            gameBoard[8] = computerLetter;
+        else if (gameBoard[5] == computerLetter && gameBoard[8] == computerLetter)
+            gameBoard[2] = computerLetter;
+        else if (gameBoard[2] == computerLetter && gameBoard[8] == computerLetter)
+            gameBoard[5] = computerLetter;
+
+        else if (gameBoard[3] == computerLetter && gameBoard[6] == computerLetter)
+            gameBoard[9] = computerLetter;
+        else if (gameBoard[6] == computerLetter && gameBoard[9] == computerLetter)
+            gameBoard[3] = computerLetter;
+        else if (gameBoard[3] == computerLetter && gameBoard[9] == computerLetter)
+            gameBoard[6] = computerLetter;
+
+        else if (gameBoard[1] == computerLetter && gameBoard[5] == computerLetter)
+            gameBoard[9] = computerLetter;
+        else if (gameBoard[5] == computerLetter && gameBoard[9] == computerLetter)
+            gameBoard[1] = computerLetter;
+        else if (gameBoard[1] == computerLetter && gameBoard[9] == computerLetter)
+            gameBoard[5] = computerLetter;
+
+        else if (gameBoard[3] == computerLetter && gameBoard[5] == computerLetter)
+            gameBoard[7] = computerLetter;
+        else if (gameBoard[5] == computerLetter && gameBoard[7] == computerLetter)
+            gameBoard[3] = computerLetter;
+        else if (gameBoard[3] == computerLetter && gameBoard[7] == computerLetter)
+            gameBoard[5] = computerLetter;
+    }
+
 }
