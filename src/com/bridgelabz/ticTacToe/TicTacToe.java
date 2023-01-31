@@ -31,6 +31,8 @@ public class TicTacToe {
         gameBoard = new char[10];
         for (int index = 0; index < 10; index++)
             gameBoard[index] = ' ';
+        turn = 0;
+        winner = null;
     }
 
     void choosePlayerLetter() {
@@ -38,15 +40,16 @@ public class TicTacToe {
         System.out.println("Enter 'X' to play 'X' on your turn.");
         System.out.println("Or Enter 'O' to play 'O' on your turn.");
         char playerInput = sc.next().charAt(0);
-        sc.close();
         if (playerInput == 'X' || playerInput == 'x') {
             playerLetter = 'X';
             computerLetter = 'O';
         } else if (playerInput == 'O' || playerInput == 'o') {
             playerLetter = 'O';
-            computerLetter = 'o';
-        } else
+            computerLetter = 'X';
+        } else {
             System.out.println("\nInvalid Input.\nPlease try again!");
+            choosePlayerLetter();
+        }
     }
 
     void showBoard() {
@@ -280,14 +283,21 @@ public class TicTacToe {
         else if (gameBoard[1] == playerLetter && gameBoard[5] == playerLetter && gameBoard[9] == ' ')
             gameBoard[9] = computerLetter;
 
+        else if (gameBoard[4] == playerLetter && gameBoard[6] == playerLetter && gameBoard[5] == ' ')
+            gameBoard[5] = computerLetter;
+        else if (gameBoard[2] == playerLetter && gameBoard[8] == playerLetter && gameBoard[5] == ' ')
+            gameBoard[5] = computerLetter;
+        else if (gameBoard[1] == playerLetter && gameBoard[9] == playerLetter && gameBoard[5] == ' ')
+            gameBoard[5] = computerLetter;
+        else if (gameBoard[3] == playerLetter && gameBoard[7] == playerLetter && gameBoard[5] == ' ')
+            gameBoard[5] = computerLetter;
+
         else if (gameBoard[1] == playerLetter && gameBoard[3] == playerLetter && gameBoard[2] == ' ')
             gameBoard[2] = computerLetter;
         else if (gameBoard[4] == playerLetter && gameBoard[5] == playerLetter && gameBoard[6] == ' ')
             gameBoard[6] = computerLetter;
         else if (gameBoard[5] == playerLetter && gameBoard[6] == playerLetter && gameBoard[4] == ' ')
             gameBoard[4] = computerLetter;
-        else if (gameBoard[4] == playerLetter && gameBoard[6] == playerLetter && gameBoard[5] == ' ')
-            gameBoard[5] = computerLetter;
         else if (gameBoard[7] == playerLetter && gameBoard[9] == playerLetter && gameBoard[8] == ' ')
             gameBoard[8] = computerLetter;
         else if (gameBoard[1] == playerLetter && gameBoard[7] == playerLetter && gameBoard[4] == ' ')
@@ -296,14 +306,7 @@ public class TicTacToe {
             gameBoard[8] = computerLetter;
         else if (gameBoard[5] == playerLetter && gameBoard[8] == playerLetter && gameBoard[2] == ' ')
             gameBoard[2] = computerLetter;
-        else if (gameBoard[2] == playerLetter && gameBoard[8] == playerLetter && gameBoard[5] == ' ')
-            gameBoard[5] = computerLetter;
         else if (gameBoard[3] == playerLetter && gameBoard[9] == playerLetter && gameBoard[6] == ' ')
             gameBoard[6] = computerLetter;
-        else if (gameBoard[1] == playerLetter && gameBoard[9] == playerLetter && gameBoard[5] == ' ')
-            gameBoard[5] = computerLetter;
-        else if (gameBoard[3] == playerLetter && gameBoard[7] == playerLetter && gameBoard[5] == ' ')
-            gameBoard[5] = computerLetter;
     }
-
 }
